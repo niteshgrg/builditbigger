@@ -26,6 +26,11 @@ android {
             applicationId 'com.udacity.gradle.builditbigger.free'
         }
     }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
 }
 
 dependencies {
