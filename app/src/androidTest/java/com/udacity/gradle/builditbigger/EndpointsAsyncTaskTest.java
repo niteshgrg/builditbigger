@@ -3,13 +3,16 @@ package com.udacity.gradle.builditbigger;
 import android.test.AndroidTestCase;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by niteshgarg on 28/06/16.
  */
 public class EndpointsAsyncTaskTest extends AndroidTestCase {
 
-    String mJoke = null;
+    public static final String LOG_TAG = EndpointsAsyncTask.class.getSimpleName();
+
+    String mJoke = "";
     CountDownLatch signal = null;
 
     @Override
@@ -26,14 +29,15 @@ public class EndpointsAsyncTaskTest extends AndroidTestCase {
         EndpointsAsyncTask task = new EndpointsAsyncTask(new EndpointsAsyncTask.AsyncResponse() {
             @Override
             public void processFinish(String joke) {
-
+                assertTrue("Valid joke recieved", (joke != null && !joke.isEmpty()));
                 mJoke = joke;
                 signal.countDown();
             }
         });
-        signal.await();
-        task.execute();
 
-        assertTrue("Valid joke recieved", mJoke!=null);
+        task.execute();
+        signal.await(30, TimeUnit.SECONDS);
+
+        assertTrue("Valid joke recieved", (mJoke != null && !mJoke.isEmpty()));
     }
 }
