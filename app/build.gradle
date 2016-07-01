@@ -31,6 +31,18 @@ android {
         incremental true
         javaMaxHeapSize "4g"
     }
+    sourceSets {
+        paid {
+            java.srcDirs = ['src/paid/java']
+            res.srcDirs = ['src/paid/res']
+            manifest.srcFile 'src/paid/AndroidManifest.xml'
+        }
+        free {
+            java.srcDirs = ['src/free/java']
+            res.srcDirs = ['src/free/res']
+            manifest.srcFile 'src/free/AndroidManifest.xml'
+        }
+    }
 }
 
 dependencies {
